@@ -26,11 +26,11 @@ pub use value::{to_value, Value};
 ///
 /// assert_eq!(val, "hello world".to_string());
 /// ```
-pub fn response_from_str<'a, T>(input: &'a str) -> Result<T>
+pub fn response_from_str<'a, T>(input: String) -> Result<T>
 where
     T: serde::de::Deserialize<'a>,
 {
-    let mut reader = Reader::from_str(input);
+    let mut reader = Reader::from_str(input.as_str());
     reader.expand_empty_elements(true);
     reader.trim_text(true);
 
@@ -460,7 +460,7 @@ mod tests {
                  </struct>
                 </value>
               </fault>
-            </methodResponse>"#,
+            </methodResponse>"#.to_string(),
         )
         .unwrap_err();
 
@@ -487,7 +487,7 @@ mod tests {
               <params>
                 <param><value><string>hello world</string></value></param>
               </params>
-            </methodResponse>"#,
+            </methodResponse>"#.to_string(),
         )
         .unwrap();
 
